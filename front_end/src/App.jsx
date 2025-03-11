@@ -5,6 +5,8 @@ import Login from './components/login'
 
 import Registration from './components/registration'
 import './App.css'
+import Products from './components/products'
+import Cart from './components/Cart'
 
 function App() {
   
@@ -15,6 +17,8 @@ function App() {
       <Route path='/' element={<Landing />} />
       <Route path='/login' element={<Login />} />
       <Route path='/regis' element={<Registration />} />
+      <Route path='/products' element={<Products/>}/>
+      <Route path='/cart' element={<Cart/>}/>
     </Routes>
       
     </div>

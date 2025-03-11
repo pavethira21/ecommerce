@@ -12,8 +12,7 @@
     background-position: center;
     background-size: cover;
     display: flex;
-    width: 97%;
-
+    
     justify-content: center;
     align-items: center;
     height: 300px;
@@ -21,6 +20,7 @@
     margin: 20px;
     
 }
+
 .navBar {
     list-style-type: none;
     background-color: black;
@@ -33,6 +33,7 @@
   .searchBar{
     display: flex;
   }
+
   
   .navBar a {
     cursor: pointer;
@@ -58,6 +59,10 @@
     height:auto;
 
   }
+
+  .navBar select:hover{
+    display:block
+  }
   .searchBtn{
     display: inline-flex;
     text-align: center;
@@ -71,6 +76,9 @@
     cursor: pointer;
     display: flex;
     width: 100%;
+  }
+  .navBar h3{
+    cursor: pointer;
   }
   
   
@@ -87,19 +95,12 @@
     width: auto;
     
   }
-  .best-sellers{
-    display:flex;
-    flex-wrap: wrap;
-    padding:20px;
-    height: 100%;
-    margin: 10%;
-    justify-content: center;
-    align-items: center;
-  }
+  
 
   .headings{
     padding-left: 10px;
     margin:20px;
+    font-weight: 600;
   }
 
   /* .best-seller-card{
@@ -121,8 +122,45 @@
     padding: 15px;
     background-color: #333;
     color: white;
-    margin-top: 10%;
+    /* margin-top: 10%; */
     
+  }
+  
+  .signin-footer{
+    justify-content: center;
+    align-items: center;
+    display:flex;
+   div{
+    padding:10px;
+    justify-content: center;
+    align-items: center;
+    button{
+      padding:10px;
+      border-radius: 20px;
+      background-color: rgb(234, 219, 58);
+      color: #333;
+      font-weight: 600;
+      width: 90%;
+    }
+
+  }}
+  .best-sellers{
+    
+    display: flex;
+    height: 100%;
+    margin: 10%;
+    /* justify-content: center;
+    align-items: center; */
+  }
+  .best-seller-card{
+    height:300px;
+    width: auto;
+    padding:10px;
+    flex-wrap: wrap;
+  }
+  .slider-container{
+    display:flex;
+    width:100%
   }
   
   .footer-links {
@@ -139,6 +177,11 @@
   
   .footer-links a:hover {
     color: white;
+  }
+  .footer-social-media a{
+    color:white;
+    padding:20px;
+    margin-top:10px;
   }
   .scroll-btn{
     padding: 15px;

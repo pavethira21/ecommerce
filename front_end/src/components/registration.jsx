@@ -149,16 +149,7 @@ export default function Registration(){
                     <input name="email" type="email" onChange={handleChange} required/>
                  </div>
                  <div >
-                 <select className="selectGenre" name="genre" style={{width:"100%",padding:"10px"}}  onChange={handleChange}>
-                <option  value=" "  disabled>Favourite genre</option>
-                     {genre.map((items,i)=>{
-            
-                         return(<option key={i} value={items}>{items}</option>)
-            
-                         })}
-         
-        
-    </select>
+                 
                  </div>
                  <button className='userAuth' onClick={handleRegister}>Register</button>
             </form>

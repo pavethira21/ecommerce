@@ -1,16 +1,27 @@
 import NavBar from "./navBar"
 import Ad from "./Ad"
 import Footer from "./Footer"
+import Slider from "react-slick"
+import { useNavigate } from "react-router-dom"
 
 export default function(){
+    const navigate = useNavigate()
+
     function handleClick(){
         console.log('hello')
+    }
+    function handleLog(){
+        localStorage.setItem("userName","")
+        localStorage.setItem("email","")
+        navigate('/login')
     }
     return( 
         <>
         <NavBar/>
         <Ad/>
+        <div>
         <div className="headings"><h2>Category</h2></div>
+        
         <div className="categories">
             
             <div className="categories-cards" onClick={handleClick}>
@@ -45,10 +56,29 @@ export default function(){
             
             
         </div>
-        <div className="best-sellers">
-            <div className="best-seller-card">hello</div>
+        
         </div>
-
+        <div>
+        <h3>Best-Sellers</h3>
+        <div className="best-sellers">
+            
+            <div className="best-seller-card"> 
+                <p>kurta sets</p>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb9ExmeVxO4BLkKSB-Zdhb2TYHzocY0rQtyQ&s" alt="img"/>
+            </div>
+            <div className="best-seller-card"> 
+                <p>Shoe</p>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb9ExmeVxO4BLkKSB-Zdhb2TYHzocY0rQtyQ&s" alt="img"/>
+            </div>
+        </div>
+        </div>
+        
+        <hr/>
+        <footer className="signin-footer">
+        
+            <div> <h3>See Personalized recommendation </h3><button onClick={handleLog}>Sign In</button></div>
+            <hr/>
+        </footer>
         <Footer/>
         
         </>

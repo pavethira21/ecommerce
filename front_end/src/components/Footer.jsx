@@ -1,3 +1,5 @@
+import { FaFacebook,FaInstagram,FaTwitter } from "react-icons/fa";
+
 export default function Footer(){
   function handleScroll(){
     window.scrollTo({
@@ -16,6 +18,12 @@ export default function Footer(){
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
           <a href="#">Contact Us</a>
+        </div>
+        <div className="footer-social-media">
+          <a href="#"><FaFacebook/></a>
+          <a href="#"><FaInstagram/></a>
+          <a href="#"><FaTwitter/></a>
+          
         </div>
        </footer>
        </>
