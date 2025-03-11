@@ -34,13 +34,12 @@
   
   .form-left {
     width: 50%;
-    background: url('https://source.unsplash.com/600x800/?movie,cinema') no-repeat center;
-    background-size: cover;
-    background-position: fixed;
+    img{
+      height: 100%;
+      padding: 20px;
+    }
    
-    /* animation-name: imgslide;
-    animation-duration: 10s;
-    animation-iteration-count: infinite; */
+    
 
   }
   

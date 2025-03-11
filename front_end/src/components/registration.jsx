@@ -1,7 +1,8 @@
 import { useState,useEffect } from 'react';
-//import users from '../assets/users.json'
-
+//import users from '../assets/users.json';
+import logo from '../assets/logo.png' ;
 import { useNavigate } from 'react-router-dom';
+import { CgEnter } from 'react-icons/cg';
 
 
 export default function Registration(){
@@ -125,9 +126,15 @@ export default function Registration(){
    
 
     return(
+        <div>
+            
         <div className="container">
             <div className='login-box'>
             <div className='form-left'>
+                <div onClick={()=>{navigate('/')}} style={{display:'flex',justifyContent:'center',alignItems:'center',cursor:"pointer"}}>
+                <img src={logo} style={{height:"25%",width:"25%",borderRadius:"20px"}} />
+                <h3 >Cartopia</h3>
+                </div>
               
             </div>
             <div className='form-right'>
@@ -158,6 +165,7 @@ export default function Registration(){
             
         
             </div>
+        </div>
         </div>
     )
 }

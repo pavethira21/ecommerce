@@ -19,6 +19,7 @@ const client = new MongoClient(uri)
 const dbName = 'ecommerce'
 const collectionProduct = 'products' 
 const user_collection ='users'
+const ad_collection = 'adver'
 
 async function main(){
     try{
@@ -60,8 +61,28 @@ async function getRecords(col,id,page,category){
 
 }
 
-
-
+app.post("/addAd",async (req,res)=>{
+    main()
+    const {name,url} = req.body
+    const id = Date.now()
+    const record = {id:id,name:name,url:url}
+    try{
+        const status = insertRecords(ad_collection,record)
+        if((await status).acknowledged){
+                
+            client.close()
+            console.log("db Closed");
+            
+            return res.status(200).json({message:"Added successfully"})
+           }else{
+            client.close()
+            return res.status(401).json({message:"Not Added"})
+           }
+    }
+    catch(e){
+        console.log(e)
+    }
+})
 app.post("/login",async (req,res)=>{
     main()
     const {email,password} = req.body

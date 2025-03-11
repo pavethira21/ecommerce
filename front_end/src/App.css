@@ -15,7 +15,7 @@
     
     justify-content: center;
     align-items: center;
-    height: 300px;
+    height: 200px;
     padding: 10px;
     margin: 20px;
     
@@ -81,7 +81,19 @@
     cursor: pointer;
   }
   
-  
+  /* .back-img{
+    background: url('https://rukminim1.flixcart.com/fk-p-flap/1010/170/image/766aa968348543c1.jpg?q=20');
+    background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+   padding: 10px;
+  margin: 20px; 
+    
+  }
+   */
   .navBar a:hover {
     background-color: #ddd;
     color: black;

@@ -18,6 +18,7 @@ export default function(){
     return( 
         <>
         <NavBar/>
+        <div className="back-img"></div>
         <Ad/>
         <div>
         <div className="headings"><h2>Category</h2></div>

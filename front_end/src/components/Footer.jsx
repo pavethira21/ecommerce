@@ -13,7 +13,7 @@ export default function Footer(){
        
         <footer className="footer">
         <button className="scroll-btn" onClick={handleScroll}>Back to Top</button>
-        <p>&copy; {new Date().getFullYear()} InMyHonestOpinion. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Cartopia. All rights reserved.</p>
         <div className="footer-links">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
