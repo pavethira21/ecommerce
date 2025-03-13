@@ -9,23 +9,23 @@ export default function Ad(){
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay:true,
-        autoplayspeed:4000
+        autoplayspeed:2000
     }
 
 
     return(
     <div style={{padding:"20px"}}>
-    <Slider {...sliderSettings}>
-        <div className="displayAd">
+    <Slider  {...sliderSettings}>
+        <div className="displayAd" id="img1">
             
         </div>
-        <div className="displayAd">
+        <div className="displayAd" id="img2">
        
         </div>
-        <div className="displayAd">
+        <div className="displayAd" id="img3">
         
         </div>
-        <div className="displayAd">
+        <div className="displayAd" id="img4">
        
         </div>
     </Slider>

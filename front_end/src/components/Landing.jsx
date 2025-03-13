@@ -3,9 +3,12 @@ import Ad from "./Ad"
 import Footer from "./Footer"
 import Slider from "react-slick"
 import { useNavigate } from "react-router-dom"
+import Samples from "./landing-compo"
+import { CartContext } from "../store/Cart-context"
 
 export default function(){
     const navigate = useNavigate()
+    const uName = localStorage.getItem("userName")
 
     function handleClick(){
         console.log('hello')
@@ -17,6 +20,7 @@ export default function(){
     }
     return( 
         <>
+        <CartContext>
         <NavBar/>
         <div className="back-img"></div>
         <Ad/>
@@ -41,13 +45,13 @@ export default function(){
                 
             </div>
             <div className="categories-cards" onClick={handleClick}>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb9ExmeVxO4BLkKSB-Zdhb2TYHzocY0rQtyQ&s" alt="img"/>
-                <h3>Clothing</h3>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNEJ6VnQnWqhfCdIToYbyvjuuZzxkwR2xgvg&s" alt="img"/>
+                <h3>Games</h3>
                 
             </div>
             <div className="categories-cards" onClick={handleClick}>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb9ExmeVxO4BLkKSB-Zdhb2TYHzocY0rQtyQ&s" alt="img"/>
-                <h3>Clothing</h3>
+                <img src="https://cdn.firstcry.com/education/2023/01/13101355/Names-Of-Household-Appliances-In-English.jpg" alt="img"/>
+                <h3>Appliances</h3>
                 
             </div>
             <div className="categories-cards" onClick={handleClick}>
@@ -59,29 +63,18 @@ export default function(){
         </div>
         
         </div>
-        <div>
-        <h3>Best-Sellers</h3>
-        <div className="best-sellers">
-            
-            <div className="best-seller-card"> 
-                <p>kurta sets</p>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb9ExmeVxO4BLkKSB-Zdhb2TYHzocY0rQtyQ&s" alt="img"/>
-            </div>
-            <div className="best-seller-card"> 
-                <p>Shoe</p>
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb9ExmeVxO4BLkKSB-Zdhb2TYHzocY0rQtyQ&s" alt="img"/>
-            </div>
-        </div>
-        </div>
+        <Samples category ={'popularity'}>Best Sellers</Samples>
+        <Samples category={'winter wear'}>Winter Wear</Samples>
         
         <hr/>
-        <footer className="signin-footer">
+       {!uName && 
+       <footer className="signin-footer">
         
-            <div> <h3>See Personalized recommendation </h3><button onClick={handleLog}>Sign In</button></div>
-            <hr/>
-        </footer>
+        <div> <h3>See Personalized recommendation </h3><button onClick={handleLog}>Sign In</button></div>
+        <hr/>
+    </footer>} 
         <Footer/>
-        
+        </CartContext>
         </>
         
     )

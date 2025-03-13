@@ -1,0 +1,36 @@
+.cart-div{
+    padding:20px;
+    display: flex;
+    gap:20px;
+    width: 100%;
+    
+}
+
+.cart-container{
+    display: block;
+    
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+.pro-detail{
+    display:inline-flex;
+    padding:30px;
+    margin:20px
+}
+
+.products-details{
+    background-color: white;
+    padding:20px;
+    width:65%;
+    
+}
+
+.product-image{
+    height:250px;
+}
+
+.price-details{
+    background-color: white;
+    padding:20px;
+    width: 35%;
+}

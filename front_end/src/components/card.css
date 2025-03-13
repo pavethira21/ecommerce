@@ -1,0 +1,421 @@
+/* From Uiverse.io by MuhammadHasann 
+.card {
+    --bg-card: #27272a;
+    --primary: #6d28d9;
+    --primary-800: #4c1d95;
+    --primary-shadow: #2e1065;
+    --light: #d9d9d9;
+    --zinc-800: #18181b;
+    --bg-linear: linear-gradient(0deg, var(--primary) 50%, var(--light) 125%);
+  
+    position: relative;
+  
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  
+    padding: 1rem;
+    width: 14rem;
+    background-color: var(--bg-card);
+  
+    border-radius: 1rem;
+  }
+  
+  .image_container {
+    overflow: hidden;
+    cursor: pointer;
+  
+    position: relative;
+    z-index: 5;
+  
+    width: 100%;
+    height: 8rem;
+    background-color: var(--primary-800);
+  
+    border-radius: 0.5rem;
+  }
+  
+  .image_container .image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  
+    width: 3rem;
+    fill: var(--light);
+  }
+  
+  .title {
+    overflow: clip;
+  
+    width: 100%;
+  
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--light);
+    text-transform: capitalize;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+  }
+  
+  .size {
+    font-size: 0.75rem;
+    color: var(--light);
+  }
+  
+  .list-size {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  
+    margin-top: 0.25rem;
+  }
+  
+  .list-size .item-list {
+    list-style: none;
+  }
+  
+  .list-size .item-list-button {
+    cursor: pointer;
+  
+    padding: 0.5rem;
+    background-color: var(--zinc-800);
+  
+    font-size: 0.75rem;
+    color: var(--light);
+  
+    border: 2px solid var(--zinc-800);
+    border-radius: 0.25rem;
+  
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .item-list-button:hover {
+    border: 2px solid var(--light);
+  }
+  .item-list-button:focus {
+    background-color: var(--primary);
+  
+    border: 2px solid var(--primary-shadow);
+  
+    box-shadow: inset 0px 1px 4px var(--primary-shadow);
+  }
+  
+  .action {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--light);
+  }
+  
+  .cart-button {
+    cursor: pointer;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+  
+    padding: 0.5rem;
+    width: 100%;
+    background-image: var(--bg-linear);
+  
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--light);
+    text-wrap: nowrap;
+  
+    border: 2px solid hsla(262, 83%, 58%, 0.5);
+    border-radius: 0.5rem;
+    box-shadow: inset 0 0 0.25rem 1px var(--light);
+  }
+  
+  .cart-button .cart-icon {
+    width: 1rem;
+  }
+   */
+
+  
+
+/* body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+} */
+
+/* 
+.product-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 20px;
+ 
+  
+} */
+
+
+/* .filters {
+  display: block;
+  flex-shrink: initial;
+  background-color: #fff;
+  padding: 15px;
+  margin-right: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.filters h2 {
+  margin-top: 0;
+}
+
+.filters p {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.filters input {
+  margin-right: 10px;
+}
+
+
+.filtered-products {
+  flex: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Ad Section Styling */
+/* .filtered-products > div {
+  width: 100%;
+}
+
+
+.product-list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  
+} */
+
+/* Individual Product Cards */
+/* .card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+} */
+
+/* Product Image */
+/* .product-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 5px;
+} */
+
+/* Product Price */
+/* .product-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+} */
+
+/* Add to Cart Button */
+/* .cart-button {
+  background-color: #008cff;
+  color: rgb(1, 1, 1);
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cart-button:hover {
+  background-color: #e55a00;
+}
+
+.card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .product-container {
+      flex-direction: column;
+  }
+
+  .filters {
+      margin-bottom: 20px;
+  }
+
+  .filtered-products {
+      flex: none;
+  }
+
+  .product-list {
+      grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-list {
+      grid-template-columns: 1fr;
+  }
+}
+ */
+
+ /* Container for products */
+.product-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #f8f8f8;
+}
+
+/* Sidebar filters */
+.filters {
+  width: 20%;
+  padding: 15px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.filters h2 {
+  font-size: 18px;
+  color: #333;
+}
+
+.filters p {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.filters span {
+  cursor: pointer;
+  display: block;
+  padding: 8px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  color: #444;
+  transition: background 0.3s;
+}
+
+.filters span:hover {
+  background: #ddd;
+}
+
+.filters input[type="radio"] {
+  margin-right: 5px;
+}
+
+/* Product Grid */
+.filtered-products {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .product-container {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .filters {
+      width: 100%;
+      margin-bottom: 20px;
+  }
+
+  .filtered-products {
+      width: 100%;
+  }
+}
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* Product Image */
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Product Title */
+.card h3 {
+  font-size: 18px;
+  color: #333;
+  margin-top: 10px;
+}
+
+/* Product Price */
+.product-price {
+  font-size: 16px;
+  color: #28a745;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+/* Add to Cart Button */
+.cart-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: #ff6600;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+.cart-button:hover {
+  background: #e65c00;
+}
+

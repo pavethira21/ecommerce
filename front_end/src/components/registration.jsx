@@ -22,15 +22,7 @@ export default function Registration(){
         status:'true'
     })
     const navigate = useNavigate()
-    // function handleFetch(){
-    //     fetch('http://localhost:5000/fetchUsers')
-    //     .then(res=>res.json())
-    //     .then(data =>setUsers(data))
-    //     .catch(err=>err)
-        
-    //     console.log(users)
-      
-    //   }
+    
       useEffect(()=>{
         if(alertMessage){
             if(alertMessage.status ==200){
@@ -40,13 +32,7 @@ export default function Registration(){
             }else{
                 alert("Could not register")
 
-                setData({
-                    uName:"",
-                    pWord:"",
-                    email:"",
-                    genre:'',
-                    status:'true'
-                })
+                
     
             }
         }
@@ -66,32 +52,10 @@ export default function Registration(){
           
           
           
-        //   alert(JSON.stringify(res))
-         //navigate('/login')
+        
         }
 
-        // function checkUser(items,i,arr){
-        //     if(items.userName == data.uName){
-        //         if(items.password == data.pWord){
-        //             alert("User already exists")
-                    
-        //         }
-        //         else{
-        //             handleAdduser()
-        //         }
-        //     }
-        //     else{
-        //         console.log(i)
-        //         if((i+1) ==arr.length){
-        //             setError('Invalid username /password')
-        //         }
-    
-        //     }
-            
-    
-        // }
-   
-
+        
 
     function handleChange(e){
        

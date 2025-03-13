@@ -7,6 +7,8 @@ import Registration from './components/registration'
 import './App.css'
 import Products from './components/products'
 import Cart from './components/Cart'
+import Admin from './components/Admin'
+import Profile from './components/Profile'
 
 function App() {
   
@@ -14,11 +16,14 @@ function App() {
   return (
     <div className='App'>
     <Routes>
+      
       <Route path='/' element={<Landing />} />
       <Route path='/login' element={<Login />} />
       <Route path='/regis' element={<Registration />} />
       <Route path='/products' element={<Products/>}/>
       <Route path='/cart' element={<Cart/>}/>
+      <Route path="/admin" element={<Admin/>}/>
+      <Route path='/account' element={<Profile/>}/>
     </Routes>
       
     </div>

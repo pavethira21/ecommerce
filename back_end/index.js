@@ -20,6 +20,7 @@ const dbName = 'ecommerce'
 const collectionProduct = 'products' 
 const user_collection ='users'
 const ad_collection = 'adver'
+const cart_collection = 'cart'
 
 async function main(){
     try{
@@ -45,22 +46,39 @@ async function deleteRecord(col,id) {
     return result
 }
 
-async function getRecords(col,id,page,category){
+async function getRecords(col,id,page,cat){
+    
     if(page){
-        console.log(page,category,col,id)
+        console.log(page,cat,col,id)
+        
+         
         const limit = 5
         const skip = (page-1) * limit
         console.log(skip)
-        const result = await client.db(dbName).collection(col).find({sub_category:category}).skip(skip).limit(5).toArray()
+        const result = await client.db(dbName).collection(col).find({category:{$regex:cat,$options:"i"}}).skip(skip).limit(5).toArray()
     console.log(result)
     return result
     }
-    const result = await client.db(dbName).collection(col).findOne({pid:id})
+    if(id){
+        const result = await client.db(dbName).collection(col).findOne({pid:id})
     console.log(result)
     return result
+    }else{
+        const result = await client.db(dbName).collection(col).find().limit(5).toArray()
+        console.log(result)
+        return result
+    }
+    
 
 }
+app.post("/getBrands",async(req,res)=>{
+    main()
+    try{
 
+    }catch(e){
+
+    }
+})
 app.post("/addAd",async (req,res)=>{
     main()
     const {name,url} = req.body
@@ -87,33 +105,42 @@ app.post("/login",async (req,res)=>{
     main()
     const {email,password} = req.body
     try{
-        const users = await client.db("movieReview").collection("users").findOne({email})
+        console.log('1')
+        const users = await client.db(dbName).collection(user_collection).findOne({email})
         if(!users){
+            console.log('no user')
             return res.json({message:"Invalid email"})
         }
         const match = await bcrypt.compare(password,users.password)
         if(!match){
-
+            console.log('not matched')
             return res.json({message:"Invalid password"})
         }
         else{
             console.log('matched')
             console.log(users._id)
-            const token = jwt.sign({ name:users.userName },jwtseccode , { expiresIn: "1h" });
+            const token = jwt.sign({ email:users.email },jwtseccode , { expiresIn: "1h" });
             console.log('token_created')
             console.log(token)
-            client.close();
-            return res.json({ token, user: { id: users._id, name: users.userName, email: users.email } });
+            
+            return res.status(200).json({ 
+                token, 
+                user: { 
+                    id: users._id, 
+                    name: users.userName, 
+                    email: users.email 
+                } 
+            });
             
         }
         
     
         
     }catch(e){
-        res.send(e)
+        res.status(500).send(e)
     }
     finally{
-        client.close()
+       await client.close()
     }
 
 
@@ -240,7 +267,8 @@ app.get('/user',authentication,async (req,res)=>{
     
     try{
         main()
-        const user = await client.db("movieReview").collection("users").findOne({ _id: new ObjectId(req.user.id) }, { projection: { password: 0 } });
+        console.log(req.user)
+        const user = await client.db(dbName).collection(user_collection).findOne({ email: req.user.email }, { projection: { password: 0 } });
 
         if (!user) {
             return res.status(404).json({ msg: "User not found" });
@@ -252,29 +280,159 @@ app.get('/user',authentication,async (req,res)=>{
     }
 })
 
-app.post('/getProduct',async (req,res)=>{
+app.get('/getProduct',async (req,res)=>{
 
-    const {productId} = req.body   
+    const {productId} = req.query  
     
     main()
     try{
         const product =await getRecords(collectionProduct,productId)
         console.log(product)
-        return res.json({product})
+        return res.json(product)
     }catch(e){
 
         console.log(e)
+    }finally{
+        await client.close()
     }
+       
+    
     
 })
-//client.db(dbName).collection(collectionProduct).find({sub_category:category}).toArray()
-app.get('/category',async(req,res)=>{
-    const {category,page} = req.query
+
+app.post('/addCart',async(req,res)=>{
+    main()
+    const {id,name,price,quantity} = req.body
+    console.log('hit')
+   
+    if(!id || !name|| !price || !quantity){
+        return res.json({msg:"Enter All values"})
+
+    }
+    console.log('all details')
+    const exist = await client.db(dbName).collection(cart_collection).findOne({id:id})
+    console.log(exist)
+    if(exist){
+        console.log('value exist')
+        const status = await client.db(dbName).collection(cart_collection).updateOne({id:id},{$inc:{quantity:quantity}})
+    }else{
+        console.log('value not exist')
+        const record = {id :id,name:name,price:price,quantity:quantity }
+        const records = await insertRecords(cart_collection,record)
+        console.log(records)
+    }
+        
+    
+    console.log('records')
+    const updatedRecord = await client.db(dbName).collection(cart_collection).find({}).toArray()
+    console.log(updatedRecord)
+    if(!updatedRecord){
+        return res.json({msg:"Cart Empty"})
+    }else{
+       return res.json({updatedRecord})
+    }
+})
+
+app.post('/cartDelete',async(req,res)=>{
+    const {id} = req.body
+    if(!id){
+        return res.json({Message:"id required"})
+    }
+    const exist = await client.db(dbName).collection(cart_collection).findOne({id:id})
+    if(exist){
+        const status = await client.db(dbName).collection(cart_collection).deleteOne({id:id})
+        if(status.acknowledged){
+            return res.json({msg:"deleted successfully"})
+        }else{
+            return res.json({msg:"could not delete"})
+        }
+    }else{
+        return res.json({msg:"Record not found"})
+    }
+})
+app.post('/sortProducts',async(req,res)=>{
+    main()
+    console.log("sort products")
+    const {condition,category} = req.body
+    console.log(condition)
+    try{
+        console.log('try')
+        if(!condition){
+
+            return res.json({msg:"specify sort condition"})}
+    if(condition ==="price low to high"){
+        console.log(condition)
+        const records = await client.db(dbName).collection(collectionProduct).find().sort({sellPrice:1}).limit(5).toArray()
+        console.log(records)
+        if(!records){
+            return res.json({msg:"no records"})
+        }
+        return res.json(records)
+    }else if(condition==="price high to low"){
+        const records = await client.db(dbName).collection(collectionProduct).find().sort({sellPrice:-1}).limit(5).toArray()
+        if(!records){
+            return res.json({msg:"no records"})
+        }
+        return res.json(records)
+    }
+    else if(condition ==="popularity"){
+        console.log()
+        const records = await client.db(dbName).collection(collectionProduct).find({}, { projection: { category:0,crawled_at:0,description:0,out_of_stock:0,product_details:0,seller:0,url:0 } }).sort({average_rating:-1}).skip(10).limit(5).toArray()
+        if(!records){
+            return res.json({msg:"no records"})
+        }
+        return res.json(records)
+    }
+}catch(e){console.log(e)}finally{
+   await client.close()
+}
+})
+
+app.post('/filterProducts',async(req,res)=>{
+    main()
+    try{
+        const {filters,category,filterName} = req.body
+        if(!filters || !filterName){
+            return res.json({msg:"Filter Not mentioned"})
+        }
+        if(filterName=="brand"){
+
+            const result = await client.db(dbName).collection(collectionProduct).find({brand:filters}).limit(5).toArray()
+            if(result){
+                console.log('hit')
+                return res.json({result})
+            }else{
+               
+                return res.json({msg:"record not found"})
+            }
+        }
+        if(filterName=="subcategory"){
+            const result = await client.db(dbName).collection(collectionProduct).find({sub_category:{$regex:filters,$options:"i"}}).limit(5).toArray()
+            if(result.length>1){
+                console.log('hit result')
+                return res.json({result})
+            }else{
+               
+                return res.json({msg:"record not found"})
+            }
+        }
+        
+    }catch(e){
+        console.log(e)
+    }finally{
+        client.close()
+    }
+})
+
+app.post('/category',async(req,res)=>{
+    const {category,page} = req.body
    
     main()
     try{
+        console.log('hi')
         const details = await getRecords(collectionProduct,null,page,category)
         if(details){
+            console.log('hello')
             const len = details.length
             return res.json({len})
         }else{
@@ -289,8 +447,10 @@ app.get('/category',async(req,res)=>{
 
 
 
+
+
 function authentication(req,res,next){
-    const token = req.header.authorization
+    const token = req.headers.authorization?.split(' ')[1];
     if(!token){
         console.log('indise token if');
         
@@ -298,7 +458,7 @@ function authentication(req,res,next){
         return res.json({message:" user does not exist"})
     }
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(token, jwtseccode);
         req.user = decoded;
         next();
     } catch (error) {
