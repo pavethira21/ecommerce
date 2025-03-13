@@ -1,24 +1,26 @@
 import Footer from "./Footer";
 import NavBar from "./navBar";
-import { CartContext } from "../store/Cart-context";
+import { useCart } from "../store/Cart-context";
 import { useNavigate } from "react-router-dom";
 import { FaPlusCircle ,FaMinusCircle,FaRupeeSign} from "react-icons/fa";
 import './cart.css'
-import { useState,useContext } from "react";
+import { useState } from "react";
 
 export default function Cart(){
     const navigate = useNavigate()
-    
+    const decrement = true
+    const increment = true
     const uName = localStorage.getItem('userName')
-    const {items,removeItem,updateQuantity}=useContext(CartContext);
+    const {items,removeFromCart,updateQuantity}=useCart();
     const totalPrice = items.reduce(
-        (acc, item) => acc + item.price * item.quantity,
+        (acc, item) => acc + item.salePrice * item.quantity,
         0
     );
 
 
    
     return(<>
+    {console.log(items)}
     <NavBar/>
     {uName? 
     <>
@@ -40,20 +42,20 @@ export default function Cart(){
                 {items.map((item,i)=>(
                     <div key={i}>
                 <div className="product-image">
-                    <img src={item.images} alt="img"/>
+                    <img src={item.images[0]} alt="img"/>
                     <h3>{item.title}</h3>
                     <p>{item.description}</p>
                     
-                        <h3><FaMinusCircle style={{visibility:(item.quantity<=1?"hidden":"visible")}} onClick={()=>updateQuantity(item.title,item.quantity-1)}/> {item.quantity}
-                        < FaPlusCircle style={{visibility:(item.quantity>=10?"hidden":"visible")}} onClick={()=>updateQuantity(item.title,item.quantity+1)}/></h3>
+                        <h3><FaMinusCircle style={{visibility:(item.quantity<=1?"hidden":"visible")}} onClick={()=>updateQuantity(item.title,item.quantity,decrement)}/> {item.quantity}
+                        < FaPlusCircle style={{visibility:(item.quantity>=10?"hidden":"visible")}} onClick={()=>updateQuantity(item.title,item.quantity)}/></h3>
                 </div>
                 <div className="product-details">
                     
                         
                         
                         
-                        <p>Price:<FaRupeeSign/> {item.price * item.quantity} </p>
-                        <button onClick={()=>removeItem(item.title)}>Remove</button>
+                        <p>Price:<FaRupeeSign/> {item.salePrice * item.quantity} </p>
+                        <button onClick={()=>removeFromCart(item.title)}>Remove</button>
                         </div>
                     
                     

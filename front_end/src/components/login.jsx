@@ -37,9 +37,11 @@ function Login(){
         
         localStorage.setItem('authToken', data.token);
         localStorage.setItem('userName', data.user['name']);
+        localStorage.setItem('email', data.user['email']);
         navigate('/')
         
     } else {
+        setError(data.message)
         console.log('Login failed:', data.message);
     } })
       
@@ -87,7 +89,7 @@ function handleChange(e){
             <div className='form-right'>
             <h2>Login</h2>
             <form>
-               
+                <span style={{color:'red'}}>{error}</span> 
                 <div className="content">
                     <label htmlFor="email">UserName:</label><br/>
                     <input name="email" type="text"  onChange={handleChange}/>

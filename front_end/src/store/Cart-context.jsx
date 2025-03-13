@@ -1,19 +1,24 @@
-import { createContext, useState } from "react";
+import { createContext, useState ,useContext} from "react";
 
 // Create a Cart Context with an initial state
-export const CartContext = createContext({
-    items: [],
-    addItem: () => {},
-    removeItem: () => {},
-    updateQuantity: () => {},
-    clearCart: () => {}
-});
+const CartContext = createContext();
+//     {
+//     items: [ ],
+//     addItem: () => {},
+//     removeItem: () => {},
+//     updateQuantity: () => {},
+//     clearCart: () => {}
+// });
 
 // CartProvider to wrap the app and provide the context
-export const CartProvider = ({ children }) => {
+export const CartProvider = ({ children }) =>{
     // Cart state to store items
     const [items, setItems] = useState([]);
-
+    console.log('hello')
+    // const addItem = (item) => {
+    //     console.log('hello 1')
+    //     setItems((prevItems) => [...prevItems, item]);
+    // };
     // Function to add an item to the cart
     const addItem = (item) => {
         console.log('hello')
@@ -30,13 +35,15 @@ export const CartProvider = ({ children }) => {
             }
         });
     };
-
-    // Function to remove an item from the cart
-    const removeItem = (id) => {
+    const removeFromCart = (id) => {
         setItems((prevItems) => prevItems.filter((item) => item.id !== id));
     };
+    // // Function to remove an item from the cart
+    // const removeItem = (id) => {
+    //     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    // };
 
-    // Function to update the quantity of an item
+    
     const updateQuantity = (id, quantity) => {
         setItems((prevItems) =>
             prevItems.map((item) =>
@@ -45,14 +52,22 @@ export const CartProvider = ({ children }) => {
         );
     };
 
-    // Function to clear the entire cart
+    
     const clearCart = () => {
         setItems([]);
     };
 
-    return (
-        <CartContext.Provider value={{ items, addItem, removeItem, updateQuantity, clearCart }}>
+    return ( 
+        <CartContext.Provider value={{ items, addItem ,removeFromCart,updateQuantity,clearCart}}>
             {children}
         </CartContext.Provider>
     );
+};
+
+export const useCart = () => {
+    const context = useContext(CartContext);
+    if (!context) {
+        throw new Error("useCart must be used within a CartProvider");
+    }
+    return context;
 };

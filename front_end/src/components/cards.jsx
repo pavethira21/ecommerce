@@ -1,12 +1,22 @@
-import { FaCartShopping,FaRupeeSign } from "react-icons/fa6"
+import { FaShoppingCart,FaRupeeSign } from "react-icons/fa"
 import './card.css'
-import { CartContext } from "../store/Cart-context";
-import { useEffect, useState,useContext } from "react"
-import { FaShoppingCart } from "react-icons/fa";
-export default function Card({data}){
 
-  const { addItem } = useContext(CartContext);
-    const [cards,setCard] = useState()
+import { useContext } from "react"
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../store/Cart-context";
+
+export default function Card({data}){
+ const uName = localStorage.getItem("userName")
+  const cartContext = useCart();
+  console.log(cartContext);  
+  const navigate= useNavigate()
+  const { addItem } = cartContext || {};
+ 
+  // const {items,addItem,removeFromCart} = useContext(useCart);
+
+ 
+  
+    // const [cards,setCard] = useState()
     
 //  useEffect(()=>{
 //     const card = (data.map((item,i)=>(
@@ -41,15 +51,20 @@ export default function Card({data}){
       
         
     return (
+      
+      (data.map((item,i)=>(
         
-      <div className="card" >
-      <img src={data.images[0]} alt={data.title} className="product-image" />
-      <h3>{data.title}</h3>
-      <p className="product-price">
-          <FaRupeeSign /> {data.selling_price}
-      </p>
-      <button onClick={()=>(addItem(item))} className="cart-button"><FaShoppingCart />Add to Cart</button>
-  </div>
-
+        <div className="card" key={i} >
+    <img src={item.images[0]} alt={item.title} className="product-image" />
+    <h3>{item.title}</h3>
+    <span className="product-price">
+        <FaRupeeSign /> {item.salePrice}
+    </span><button onClick={() => (uName? addItem(item):navigate('/login')) } className="cart-button"><FaShoppingCart />Add to Cart</button>
+    
+</div>
+      )))
+    
     )
-}
+        
+
+  }

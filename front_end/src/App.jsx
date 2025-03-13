@@ -9,6 +9,7 @@ import Products from './components/products'
 import Cart from './components/Cart'
 import Admin from './components/Admin'
 import Profile from './components/Profile'
+import SingleProduct from './components/SingleProduct'
 
 function App() {
   
@@ -24,6 +25,7 @@ function App() {
       <Route path='/cart' element={<Cart/>}/>
       <Route path="/admin" element={<Admin/>}/>
       <Route path='/account' element={<Profile/>}/>
+      <Route path='/singleProduct' element={<SingleProduct/>}/>
     </Routes>
       
     </div>

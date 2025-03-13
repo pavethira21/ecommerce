@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import NavBar from './navBar';
 
 export default function Profile(){
     const [userData, setUserData] = useState(null);
@@ -45,6 +46,8 @@ export default function Profile(){
     if (error) return <div>Error: {error}</div>;
 
     return (
+        <>
+        <NavBar/>
         <div style={{ padding: '20px', border: '1px solid #ddd', borderRadius: '8px' }}>
             <h2>Profile</h2>
             <div style={{ marginBottom: '15px' }}>
@@ -63,6 +66,7 @@ export default function Profile(){
                 <strong>Address:</strong> {userData.address}
             </div>
         </div>
+        </>
     );
 };
 

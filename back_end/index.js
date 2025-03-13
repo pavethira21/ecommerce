@@ -17,7 +17,7 @@ const jwtseccode = process.env.JWT_SECRET
 const uri="mongodb://localhost:27017"
 const client = new MongoClient(uri)
 const dbName = 'ecommerce'
-const collectionProduct = 'products' 
+const collectionProduct = 'product' 
 const user_collection ='users'
 const ad_collection = 'adver'
 const cart_collection = 'cart'
@@ -46,27 +46,35 @@ async function deleteRecord(col,id) {
     return result
 }
 
-async function getRecords(col,id,page,cat){
-    
-    if(page){
-        console.log(page,cat,col,id)
+async function getRecords(col,id,page){
+    const pages = page || 1
+    // if(page){
+    //     console.log(page,cat,col,id)
         
          
-        const limit = 5
-        const skip = (page-1) * limit
-        console.log(skip)
-        const result = await client.db(dbName).collection(col).find({category:{$regex:cat,$options:"i"}}).skip(skip).limit(5).toArray()
-    console.log(result)
-    return result
-    }
+    //     const limit = 5
+    //     const skip = (page-1) * limit
+    //     console.log(skip)
+    //     const result = await client.db(dbName).collection(col).find({category:{$regex:cat,$options:"i"}}).skip(skip).limit(5).toArray()
+    // console.log(result)
+    // return result
+    // }
     if(id){
         const result = await client.db(dbName).collection(col).findOne({pid:id})
     console.log(result)
     return result
     }else{
-        const result = await client.db(dbName).collection(col).find().limit(5).toArray()
-        console.log(result)
-        return result
+        const limit = 20
+        const skip = (pages-1) * limit
+        const result = await client.db(dbName).collection(col).find({}).skip(skip).limit(20).toArray()
+
+        const totalproduct = await client.db(dbName).collection(collectionProduct).countDocuments({});
+        return ({
+            result,
+            currentPage: page,
+            totalPages: Math.ceil(totalproduct / limit),
+            totalproduct,
+        });
     }
     
 
@@ -103,8 +111,12 @@ app.post("/addAd",async (req,res)=>{
 })
 app.post("/login",async (req,res)=>{
     main()
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const {email,password} = req.body
     try{
+        if(!email || !pattern.test(email)|| !password){
+            return res.json({message:"Enter Valid Email and Password"})
+        }
         console.log('1')
         const users = await client.db(dbName).collection(user_collection).findOne({email})
         if(!users){
@@ -119,7 +131,7 @@ app.post("/login",async (req,res)=>{
         else{
             console.log('matched')
             console.log(users._id)
-            const token = jwt.sign({ email:users.email },jwtseccode , { expiresIn: "1h" });
+            const token = jwt.sign({ email:users.email },jwtseccode , { expiresIn: "7h" });
             console.log('token_created')
             console.log(token)
             
@@ -282,11 +294,11 @@ app.get('/user',authentication,async (req,res)=>{
 
 app.get('/getProduct',async (req,res)=>{
 
-    const {productId} = req.query  
+    const {pid,page} = req.query  
     
     main()
     try{
-        const product =await getRecords(collectionProduct,productId)
+        const product =await getRecords(collectionProduct,pid,page)
         console.log(product)
         return res.json(product)
     }catch(e){
@@ -353,21 +365,33 @@ app.post('/cartDelete',async(req,res)=>{
 app.post('/sortProducts',async(req,res)=>{
     main()
     console.log("sort products")
-    const {condition,category} = req.body
+    const {condition,page} = req.body
     console.log(condition)
     try{
         console.log('try')
+
         if(!condition){
 
             return res.json({msg:"specify sort condition"})}
     if(condition ==="price low to high"){
         console.log(condition)
-        const records = await client.db(dbName).collection(collectionProduct).find().sort({sellPrice:1}).limit(5).toArray()
-        console.log(records)
+        const pages = page || 1
+        const limit = 20
+        const skip = (pages-1) * limit
+        const records = await client.db(dbName).collection(collectionProduct).find().sort({sellPrice:1}).skip(skip).limit(limit).toArray()
+        
         if(!records){
             return res.json({msg:"no records"})
         }
-        return res.json(records)
+
+       const totalproduct = await client.db(dbName).collection(collectionProduct).countDocuments({});
+       
+        return ({
+            records,
+            currentPage: pages,
+            totalPages: Math.ceil(totalproduct / limit),
+            totalproduct,
+        });
     }else if(condition==="price high to low"){
         const records = await client.db(dbName).collection(collectionProduct).find().sort({sellPrice:-1}).limit(5).toArray()
         if(!records){
@@ -376,8 +400,9 @@ app.post('/sortProducts',async(req,res)=>{
         return res.json(records)
     }
     else if(condition ==="popularity"){
-        console.log()
-        const records = await client.db(dbName).collection(collectionProduct).find({}, { projection: { category:0,crawled_at:0,description:0,out_of_stock:0,product_details:0,seller:0,url:0 } }).sort({average_rating:-1}).skip(10).limit(5).toArray()
+        console.log('hit')
+        const records = await client.db(dbName).collection(collectionProduct).find({}, { projection: { name:1,images:1,description:1,salePrice:1,bestSellingRank:1,pid:1} }).sort({bestSellingRank:-1}).limit(5).toArray()
+        console.log(records)
         if(!records){
             return res.json({msg:"no records"})
         }

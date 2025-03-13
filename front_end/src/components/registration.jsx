@@ -119,6 +119,10 @@ export default function Registration(){
                     <label htmlFor="email">Email:</label><br/>
                     <input name="email" type="email" onChange={handleChange} required/>
                  </div>
+                 <div className="content"> 
+                    <label htmlFor="phno">Email:</label><br/>
+                    <input name="phno" type="number" onChange={handleChange} required/>
+                 </div>
                  <div >
                  
                  </div>

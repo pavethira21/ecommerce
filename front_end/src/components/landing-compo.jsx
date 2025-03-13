@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 
 export default function Samples({category,children}){
     const [datas,setData] = useState()
+    const navigate = useNavigate()
     function handleFetch(){
         
         if(category =="popularity"){
@@ -35,22 +37,37 @@ export default function Samples({category,children}){
         handleFetch()
     },[])
 
+    function handleClick(item){
+        console.log(item)
+        console.log(item.pid)
+        localStorage.setItem("pid",item.pid)
+        navigate('/singleProduct')
+    }
+
     return(
        
 
 
         <>
         
+        
         <div style={{margin:"20px"}}>
         <h3>{children}</h3>
         {console.log(datas)}
         <div className="Sample-data">
             {datas && datas.map((item,i)=>(
-                
-                <div key={i} className="Sample-data-card"> 
+                (item.bestSellingRank?
+                    <div key={i} className="Sample-data-card" onClick={()=>handleClick(item)}> 
+                <p>{item.name}</p>
+                <img style={{height:"200px",width:"150px"}} src={item.images } alt="img"/>
+                </div>:
+                <div key={i} className="Sample-data-card" onClick={()=>handleClick(item)}> 
                 <p>{item.title}</p>
-                <img src={item.images[0]} alt="img"/>
+                <img style={{height:"200px",width:"150px"}} src={item.images[0]} alt="img"/>
                 </div>
+
+                )
+                
                 
             )
 

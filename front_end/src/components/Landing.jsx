@@ -4,7 +4,7 @@ import Footer from "./Footer"
 import Slider from "react-slick"
 import { useNavigate } from "react-router-dom"
 import Samples from "./landing-compo"
-import { CartContext } from "../store/Cart-context"
+
 
 export default function(){
     const navigate = useNavigate()
@@ -20,9 +20,9 @@ export default function(){
     }
     return( 
         <>
-        <CartContext>
+        
         <NavBar/>
-        <div className="back-img"></div>
+        <div className="back-img"> </div>
         <Ad/>
         <div>
         <div className="headings"><h2>Category</h2></div>
@@ -74,7 +74,7 @@ export default function(){
         <hr/>
     </footer>} 
         <Footer/>
-        </CartContext>
+       
         </>
         
     )

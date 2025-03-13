@@ -50,6 +50,11 @@
   }
   .searchBar{
     display: flex;
+    width: 60%;
+    button{
+      background-color: #f2f2f2;
+      border: none;
+    }
   }
 
   
