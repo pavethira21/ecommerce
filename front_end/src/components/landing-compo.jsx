@@ -38,8 +38,7 @@ export default function Samples({category,children}){
     },[])
 
     function handleClick(item){
-        console.log(item)
-        console.log(item.pid)
+        
         localStorage.setItem("pid",item.pid)
         navigate('/singleProduct')
     }
@@ -52,8 +51,8 @@ export default function Samples({category,children}){
         
         
         <div style={{margin:"20px"}}>
-        <h3>{children}</h3>
-        {console.log(datas)}
+        <div className="headings"><h3 style={{padding:"10px",marginTop:"50px"}}>{children}</h3></div>
+        
         <div className="Sample-data">
             {datas && datas.map((item,i)=>(
                 (item.bestSellingRank?

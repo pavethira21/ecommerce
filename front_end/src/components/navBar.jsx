@@ -3,6 +3,7 @@ import logo from '../assets/logo.png' ;
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Modal from './Modal';
+import { useCart } from '../store/Cart-context';
 
 
 export default function NavBar(){
@@ -10,7 +11,9 @@ export default function NavBar(){
     const uName = localStorage.getItem('userName')
     const email = localStorage.getItem('email')
     const [modal,setModal] = useState(false)
-    const [cat,setcat] = useState()
+    const [cat,setCat] = useState()
+    const {addCategory} = useCart()
+    
     
     useEffect(()=>{
         
@@ -18,14 +21,10 @@ export default function NavBar(){
         
     },)
 
-    function handleCart(){
-        navigate('/cart')
-    }
+   
     function handleNext(){
-        console.log(cat)
-        
+        addCategory(cat)
         navigate('/products')
-       
     }
 
     function handleChange(e){
@@ -72,7 +71,7 @@ export default function NavBar(){
     
       function handleChangeSearch(e){
         console.log(e.target.value)
-        setcat(e.target.value)
+        setCat(e.target.value)
         
       }
 
@@ -98,7 +97,9 @@ export default function NavBar(){
             
             <input name='search' style={{width:"100%"}} onChange={(e)=>handleChangeSearch(e)}  placeholder="search products"/>
     <button className="searchBtn"  onClick={handleNext}><FaSearch/></button></li>
+    <li><a className="Login" style={{float:"right",}} onClick={()=>{navigate('/products')}} >Products</a></li>
     <li><a className="Login" style={{float:"right",}}><FaCartPlus onClick={()=>{navigate('/cart')}}/></a></li>
+    
       {uName?<li> 
         
         <select  style={{float:"right" ,backgroundColor:"black",color:"white",WebkitAppearance:"none"}} onChange={handleChange}  >

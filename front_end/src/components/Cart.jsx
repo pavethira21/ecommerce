@@ -8,10 +8,10 @@ import { useState } from "react";
 
 export default function Cart(){
     const navigate = useNavigate()
-    const decrement = true
-    const increment = true
+    
     const uName = localStorage.getItem('userName')
     const {items,removeFromCart,updateQuantity}=useCart();
+    
     const totalPrice = items.reduce(
         (acc, item) => acc + item.salePrice * item.quantity,
         0
@@ -72,6 +72,7 @@ export default function Cart(){
                 <p>Shipping Charge</p><span style={{float:"right"}}>free </span>
                 <hr /> */}
                 <h1>Total Price </h1><span style={{float:"right"}}><FaRupeeSign/> {totalPrice}</span>
+                <button>Proceed to check out</button>
             </div>
         </div>
     </div>

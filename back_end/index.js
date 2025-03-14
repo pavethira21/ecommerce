@@ -1,12 +1,13 @@
-
 const express = require('express')
+const app = express()
+const bodyParser = require('body-parser');
 const dotenv = require('dotenv')
+
 const {MongoClient} = require('mongodb');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const cors = require('cors')
-const app = express()
-const bodyParser = require('body-parser');
+
 const fs = require('fs')
 app.use(cors())
 app.use(bodyParser.json());
@@ -21,6 +22,7 @@ const collectionProduct = 'product'
 const user_collection ='users'
 const ad_collection = 'adver'
 const cart_collection = 'cart'
+
 
 async function main(){
     try{
@@ -79,14 +81,9 @@ async function getRecords(col,id,page){
     
 
 }
-app.post("/getBrands",async(req,res)=>{
-    main()
-    try{
 
-    }catch(e){
 
-    }
-})
+
 app.post("/addAd",async (req,res)=>{
     main()
     const {name,url} = req.body
@@ -216,8 +213,10 @@ app.post('/Adduser',async(req,res)=>{
     try{
         console.log('inside try');
         
-    const {userName,password,email,address,age,phno,prefered_category} =req.body
-    
+    const {userName,password,email,address,age,phno} =req.body
+    if(userName?.length<3 && email?.length<6 && !pattern.test(email)){
+        return res.json({msg:"Enter Valid username and email"})
+    }
     const users = await client.db(dbName).collection(user_collection).findOne({email:email})
     
     console.log('fetched user')
@@ -226,14 +225,14 @@ app.post('/Adduser',async(req,res)=>{
     if(users){
         console.log('fetched user')
         client.close()
-        return res.status(401).json({message:"User already exist"})
+        return res.status(401).json({message:"Looks like you already have an account , Log in to Access"})
         
     }else{
        
                 const hashPassword = await bcrypt.hash(password,10)
                 console.log(' password hashed')
                 const record = {userName:userName,password:hashPassword,email:email,
-                    address:address,age:age,phno:phno,prefered_category:prefered_category}
+                    address:address,age:age,phno:phno}
                 console.log(record)
                const status= insertRecords(user_collection,record)
             //    return res.status(200).json({message:"Updated"})
@@ -367,6 +366,7 @@ app.post('/sortProducts',async(req,res)=>{
     console.log("sort products")
     const {condition,page} = req.body
     console.log(condition)
+    
     try{
         console.log('try')
 
@@ -378,22 +378,23 @@ app.post('/sortProducts',async(req,res)=>{
         const pages = page || 1
         const limit = 20
         const skip = (pages-1) * limit
-        const records = await client.db(dbName).collection(collectionProduct).find().sort({sellPrice:1}).skip(skip).limit(limit).toArray()
+        const records = await client.db(dbName).collection(collectionProduct).find().sort({salePrice:1}).skip(skip).limit(limit).toArray()
         
         if(!records){
+
             return res.json({msg:"no records"})
         }
 
        const totalproduct = await client.db(dbName).collection(collectionProduct).countDocuments({});
        
-        return ({
+        return res.json({
             records,
             currentPage: pages,
             totalPages: Math.ceil(totalproduct / limit),
             totalproduct,
         });
     }else if(condition==="price high to low"){
-        const records = await client.db(dbName).collection(collectionProduct).find().sort({sellPrice:-1}).limit(5).toArray()
+        const records = await client.db(dbName).collection(collectionProduct).find().sort({salePrice:-1}).limit(5).toArray()
         if(!records){
             return res.json({msg:"no records"})
         }
@@ -450,16 +451,25 @@ app.post('/filterProducts',async(req,res)=>{
 })
 
 app.post('/category',async(req,res)=>{
+    console.log('hello')
     const {category,page} = req.body
-   
+    const pages = page || 1
+    const limit = 10
+    const skip= (pages -1) * limit
     main()
+    client.db(dbName).collection(collectionProduct).createIndex({category:"text",sub_category:"text"});
     try{
         console.log('hi')
-        const details = await getRecords(collectionProduct,null,page,category)
-        if(details){
+       
+        const details = await client.db(dbName).collection(collectionProduct).find({$text:{$search:category}}).skip(skip).limit(limit).toArray();
+        if(details.length>0){
             console.log('hello')
-            const len = details.length
-            return res.json({len})
+            const totalCount = await client.db(dbName).collection(collectionProduct).countDocuments({ $text: { $search: category } });
+            const totalPages = Math.ceil(totalCount / limit);
+            return res.json({
+                data: details,
+                totalPages: totalPages
+            });
         }else{
             return res.json({msg:"product not found"})
         }
@@ -467,6 +477,9 @@ app.post('/category',async(req,res)=>{
     }catch(e){
 
         console.log(e)
+        return res.status(500).json({ msg: "Internal Server Error" });
+    }finally{
+        client.close()
     }
 })
 

@@ -47,15 +47,19 @@ export default function Card({data}){
 //                 ))
 //                 setCard(card)
 //  },[])
+  function handleClick(item){
+    localStorage.setItem("pid",item.pid)
+        navigate('/singleProduct')
+  }
     
       
         
     return (
       
-      (data.map((item,i)=>(
+      (data&&data.map((item,i)=>(
         
-        <div className="card" key={i} >
-    <img src={item.images[0]} alt={item.title} className="product-image" />
+        <div className="card" onClick={()=>handleClick(item)} key={i} >
+    <img src={ item.images ||item.images[0] } alt={item.title} className="product-image" />
     <h3>{item.title}</h3>
     <span className="product-price">
         <FaRupeeSign /> {item.salePrice}

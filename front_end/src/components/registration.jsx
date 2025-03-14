@@ -18,8 +18,8 @@ export default function Registration(){
         uName:"",
         pWord:"",
         email:"",
-        genre:'',
-        status:'true'
+        phno:'',
+        
     })
     const navigate = useNavigate()
     
@@ -42,7 +42,7 @@ export default function Registration(){
     
       },[alertMessage])
     function handleAdduser(){
-        const inputValue ={userName:data.uName,password:data.pWord,email:data.email,genre:data.genre,status:data.status}
+        const inputValue ={userName:data.uName,password:data.pWord,email:data.email,phno:data.phno}
         
        let res= fetch('http://localhost:5000/Adduser',{
             method:"POST",
@@ -74,7 +74,7 @@ export default function Registration(){
      
     function handleRegister(e){
         e.preventDefault();
-        if(data.uName?.length>3 && data.pWord?.length>4 && data.email?.length>6 && pattern.test(data.email) ){
+        if(data.uName?.length>3 && data.pWord?.length>4 && data.email?.length>6&&data.phno?.length==10 && pattern.test(data.email) ){
             //users.forEach(checkUser)
             console.log(data)
             handleAdduser()

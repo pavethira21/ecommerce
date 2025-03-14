@@ -14,23 +14,28 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) =>{
     // Cart state to store items
     const [items, setItems] = useState([]);
-    console.log('hello')
+    const [category,setCategory] = useState();
     // const addItem = (item) => {
     //     console.log('hello 1')
     //     setItems((prevItems) => [...prevItems, item]);
     // };
-    // Function to add an item to the cart
+    const addCategory = (val) =>{
+        console.log('hit category add')
+        setCategory(val)
+    }
+    
+    
     const addItem = (item) => {
         console.log('hello')
         setItems((prevItems) => {
             const existingItem = prevItems.find((i) => i.id === item.id);
             if (existingItem) {
-                // If the item already exists, update its quantity
+                
                 return prevItems.map((i) =>
                     i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
                 );
             } else {
-                // If the item does not exist, add it to the cart
+                
                 return [...prevItems, { ...item, quantity: 1 }];
             }
         });
@@ -38,11 +43,8 @@ export const CartProvider = ({ children }) =>{
     const removeFromCart = (id) => {
         setItems((prevItems) => prevItems.filter((item) => item.id !== id));
     };
-    // // Function to remove an item from the cart
-    // const removeItem = (id) => {
-    //     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
-    // };
-
+    
+    
     
     const updateQuantity = (id, quantity) => {
         setItems((prevItems) =>
@@ -58,7 +60,7 @@ export const CartProvider = ({ children }) =>{
     };
 
     return ( 
-        <CartContext.Provider value={{ items, addItem ,removeFromCart,updateQuantity,clearCart}}>
+        <CartContext.Provider value={{ category, addCategory,items, addItem ,removeFromCart,updateQuantity,clearCart}}>
             {children}
         </CartContext.Provider>
     );
